@@ -17,7 +17,7 @@ scaler = StandardScaler()
 
 # Define the feature columns (excluding labels)
 feature_columns = [
-    'labels',
+   # 'labels',
     'funding_total_usd', 'milestones', 'is_CA', 'is_NY', 'is_MA', 'is_TX', 'is_otherstate',
     'is_software', 'is_web', 'is_mobile', 'is_enterprise', 'is_advertising', 'is_gamesvideo',
     'is_ecommerce', 'is_biotech', 'is_consulting', 'is_othercategory', 'has_VC', 'has_angel',
