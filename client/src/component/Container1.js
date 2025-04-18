@@ -5,10 +5,10 @@ import Signup from "./Signup";
 import AboutUs from "./AboutUs";
 import Otp from "./Otp";
 import Persist from "./Persist";
-
 export default function Container1(){
     return(<>
     <Persist/>
+
           <Routes>
           <Route path="/" element={<><Home/></>} />
           <Route path="/signin" element={<><Signin/></>} />
@@ -16,7 +16,6 @@ export default function Container1(){
           <Route path="/otp" element={<><Otp/></>} />
           <Route path="/home2" element={<><Home/></>} />
           <Route path="/about" element={<><AboutUs/></>} />
-         
     </Routes>
 
     </>)

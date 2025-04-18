@@ -11,13 +11,7 @@ export default function Otp(){
   const {newUser,setNewUser}=useContext(User)
 const [otp1,setOtp]=React.useState({"otp5":"","email":newUser.email})
 const [loading,setLoading]=React.useState(false)
-
-
 const navigate=useNavigate()
-
-
-
-
   async function handleSubmit(){
 setLoading(true)
    const res= await verifyOtp(otp1)

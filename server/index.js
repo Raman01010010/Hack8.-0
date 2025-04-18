@@ -33,7 +33,7 @@ app.use('/auth',require('./routes/auth'))
 app.use('/refresh',require('./routes/refresh'))
 
 //
-
+app.use('/img',require('./routes/img'))
 app.use(verifyJWT)
 app.use('/service1', proxy('http://localhost:3501'));
 
