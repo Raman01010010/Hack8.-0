@@ -1,0 +1,2 @@
+Sun May 26 2024 14:08:02 GMT+0530 (India Standard Time)	dd5ec561-928b-41f7-bff4-2060f311c34e	Error :Not allowed by cors
+Sun May 26 2024 14:08:02 GMT+0530 (India Standard Time)	d70a5513-7ad9-416f-b63b-49f1e5f7176d	Error :Not allowed by cors
