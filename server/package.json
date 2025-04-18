@@ -11,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@julep/sdk": "^1.71.5",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "check-password-strength": "^2.0.7",
