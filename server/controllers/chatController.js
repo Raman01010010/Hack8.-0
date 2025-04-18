@@ -12,8 +12,7 @@ app.use(bodyParser.json());
 
 // Initialize Julep client ONCE
 const client = new Julep({
-  apiKey: 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTAxNzkwNjQsImlhdCI6MTc0NDk5NTA2NCwic3ViIjoiMTVmOTAyOGEtNDBlNy01NjVlLWJjNDktYWFmNTBjNzU2M2M4In0.xuaZCdln38bkzHLkRVSjOwXFjyEf7HbUVFWU8mVuwxsuN1LLx9sLV0Fz1FJ-w_wAijxgQTA8l9YgD58-aS91qQ'
-});
+  apiKey:process.env.JAI});
 
 // Create agent & task only once when server starts
 let taskId;
