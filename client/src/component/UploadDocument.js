@@ -60,7 +60,7 @@ const UploadDocument = () => {
       console.log('Sending bankPassbook:', documents.bankPassbook?.name);
       console.log('Sending pdfDocument:', documents.pdfDocument?.name);
 
-      const response = await fetch('http://localhost:3500/startups/upload-documents', {
+      const response = await fetch('http://localhost:3500/startups1/upload-documents', {
         method: 'POST',
         // Do not set Content-Type header - the browser will set it automatically with boundary
         body: formData
@@ -69,7 +69,17 @@ const UploadDocument = () => {
       const data = await response.json();
       
       if (response.ok) {
-        setSuccess('Documents uploaded successfully! Waiting for verification.');
+        let msg = 'Documents uploaded successfully! Waiting for verification.';
+        if (data.idCardLink) {
+          msg += ' ID Card Link: ' + data.idCardLink;
+        }
+        if (data.bankPassbookLink) {
+          msg += ' Bank Passbook Link: ' + data.bankPassbookLink;
+        }
+        if (data.pdfDocumentLink) {
+          msg += ' PDF Document Link: ' + data.pdfDocumentLink;
+        }
+        setSuccess(msg);
         console.log('Upload successful:', data);
       } else {
         setError(data.message || 'Failed to upload documents');

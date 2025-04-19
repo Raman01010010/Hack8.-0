@@ -44,7 +44,8 @@ app.use('/chat',require('./routes/chat'))
 //
 app.use('/img',require('./routes/img'))
 app.use('/investor_auth',require('./routes/investor_auth'))
-app.use('/startups',require('./routes/startup_Routes')); // Use startup_Routes for file uploads
+app.use('/startups',require('./routes/uploadDetails'));
+app.use('/startups1',require('./routes/startup_Routes')); // Use startup_Routes for file uploads
 app.use('/startup',require('./routes/start'))
 app.use('/investor',require('./routes/start'))
 

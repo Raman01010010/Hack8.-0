@@ -105,12 +105,20 @@ const uploadDocuments = async (req, res) => {
     const bankPassbook = req.files['bankPassbook'][0].path;
     const pdfDocument = req.files['pdfDocument'][0].path;
 
+    // New: generate public URLs for each uploaded file
+    const idCardLink = `${req.protocol}://${req.get('host')}/uploads/${path.basename(idCard)}`;
+    const bankPassbookLink = `${req.protocol}://${req.get('host')}/uploads/${path.basename(bankPassbook)}`;
+    const pdfDocumentLink = `${req.protocol}://${req.get('host')}/uploads/${path.basename(pdfDocument)}`;
+
     const startup = await Startup.findOneAndUpdate(
       { userid },
       {
         idCard,
         bankPassbook,
         pdfDocument,
+        idCardLink,
+        bankPassbookLink,
+        pdfDocumentLink,
         isIdVerified: false,
         isBankPassbookVerified: false,
         isPdfDocumentVerified: false
@@ -132,6 +140,9 @@ const uploadDocuments = async (req, res) => {
         idCard: idCard.replace(/\\/g, '/'),
         bankPassbook: bankPassbook.replace(/\\/g, '/'),
         pdfDocument: pdfDocument.replace(/\\/g, '/'),
+        idCardLink,
+        bankPassbookLink,
+        pdfDocumentLink,
         isIdVerified: startup.isIdVerified,
         isBankPassbookVerified: startup.isBankPassbookVerified,
         isPdfDocumentVerified: startup.isPdfDocumentVerified
