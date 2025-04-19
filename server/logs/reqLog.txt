@@ -2701,3 +2701,5 @@ Sun Apr 20 2025 01:01:27 GMT+0530 (India Standard Time)	343bd780-6b7b-4a7e-81c0-
 Sun Apr 20 2025 01:01:29 GMT+0530 (India Standard Time)	de3c568c-4d0c-4c91-9cb4-397116b0e225	POST	http://localhost:3000	/startup/getbid
 Sun Apr 20 2025 01:04:06 GMT+0530 (India Standard Time)	6fc46721-7f03-42bf-ad76-966691e2efd7	OPTIONS	http://localhost:3000	/startup/getbid
 Sun Apr 20 2025 01:04:06 GMT+0530 (India Standard Time)	5fa2ec3a-cda5-4b50-aa4c-dafa46bbcfb7	POST	http://localhost:3000	/startup/getbid
+Sun Apr 20 2025 01:30:46 GMT+0530 (India Standard Time)	1e2d3fc0-c3dc-4b51-a772-1715998f6465	OPTIONS	http://localhost:3000	/startup/filter
+Sun Apr 20 2025 01:30:46 GMT+0530 (India Standard Time)	e43edc10-3f73-4eac-9166-6c1218f8e303	POST	http://localhost:3000	/startup/filter
