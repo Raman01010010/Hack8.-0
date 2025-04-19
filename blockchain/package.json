@@ -1,0 +1,14 @@
+{
+  "name": "smart-contract",
+  "version": "1.0.0",
+  "description": "Hardhat project for storing Investor, Startup, Document entities",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network localhost"
+  },
+  "devDependencies": {
+    "hardhat": "^2.14.0",
+    "ethers": "^5.7.2",
+    "@nomiclabs/hardhat-ethers": "^2.1.1"
+  }
+}

@@ -8,6 +8,9 @@ import Investor from "./Investor";
 import UploadDocument from "./UploadDocument";
 import Img from "./Img";
 import My from "./My";
+import Startup from "./Startup";
+import Document from "./Document";
+
 export default function Container1() {
     return (<>
         {/* <Dashboard/> */}
@@ -19,9 +22,14 @@ export default function Container1() {
             <Route path="/upload_documents" element={<><UploadDocument/></>} />
             <Route path ="/img" element={<><Img_to_txt/></>}></Route>
             <Route path ="/investor" element={<><Investor/></>}></Route>
-            <Route path ="/details" element={<><Investor/></>}></Route>            <Route path="/chat" element={<><ChatBot/></>} />
+            <Route path ="/details" element={<><Investor/></>}></Route>            
+            <Route path="/chat" element={<><ChatBot/></>} />
             <Route path ="/img1/:startupid" element={<><Img/></>}></Route>
-            <Route path ="/my" element={<><My/></>}></Route>            <Route path="/chat" element={<><ChatBot/></>} />
+            <Route path ="/my" element={<><My/></>}></Route>            
+            <Route path="/chat" element={<><ChatBot/></>} />
+            <Route path="/investors" element={<><Investor/></>} />
+            <Route path="/startups" element={<><Startup/></>} />
+            <Route path="/documents" element={<><Document/></>} />
 
         </Routes>
     </>)

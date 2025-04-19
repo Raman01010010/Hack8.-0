@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Home from './component/Home';
 import Navbar from './component/Navbar';
 import Navbar2 from './component/Navbar2';
+import Container2 from './component/Container2';
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
      {(!newUser.accessToken)&&<Navbar/>}
      {(newUser.accessToken)&&<Navbar2/>}
      {(newUser.investor)&&<Navbar2/>}
-
+      <Container2 />
       </Router>
     </User.Provider>
     </>

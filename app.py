@@ -46,14 +46,16 @@ def predict():
         X_scaled = scaler.fit_transform(X)
 
         # Predict
-        predictions = model.predict(X_scaled)
-        predicted_classes = (predictions > 0.5).astype(int).flatten()
+        predictions = model.predict(X_scaled)  # returns something like [[0.72]]
+        predicted_classes = predictions  # keeping original float probabilities
 
-        # Convert to labels
-        status = ['acquired' if pred == 1 else 'closed' for pred in predicted_classes]
+# Optionally convert to label:
+# status = ['acquired' if pred > 0.5 else 'closed' for pred in predicted_classes.flatten()]
 
-        # Return the predictions
-        return jsonify({"predictions": status})
+        print(predictions)  # prints [[0.72]] or similar
+
+# ✅ Return first value as float via JSON:
+        return jsonify({"predictions": float(predictions[0][0])})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
