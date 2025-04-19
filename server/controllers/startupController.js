@@ -63,4 +63,19 @@ const handlegetallbids = async (req, res) => {
     }
 };
 
-module.exports = { handleFilterStart, handleBid, handlegetallbids };
+const getStartupsByUser = async (req, res) => {
+    try {
+        const { userid } = req.body;
+        if (!userid) {
+            return res.status(400).json({ message: "Missing user id" });
+        }
+
+        const startups = await Startup.find({ userid: userid });
+        res.status(200).json({ message: "Startups retrieved!", data: startups });
+    } catch (error) {
+        console.error("Error fetching startups by user:", error);
+        res.status(500).json({ message: "Server error while fetching startups." });
+    }
+};
+
+module.exports = { handleFilterStart, handleBid, handlegetallbids, getStartupsByUser };
