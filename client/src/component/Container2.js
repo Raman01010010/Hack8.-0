@@ -8,7 +8,6 @@ import Investor from "./Investor";
 import UploadDocument from "./UploadDocument";
 import Img from "./Img";
 import My from "./My";
-
 export default function Container1() {
     return (<>
         {/* <Dashboard/> */}
@@ -23,7 +22,7 @@ export default function Container1() {
             <Route path ="/details" element={<><Investor/></>}></Route>            <Route path="/chat" element={<><ChatBot/></>} />
             <Route path ="/img1/:startupid" element={<><Img/></>}></Route>
             <Route path ="/my" element={<><My/></>}></Route>            <Route path="/chat" element={<><ChatBot/></>} />
-           
+
         </Routes>
     </>)
 }

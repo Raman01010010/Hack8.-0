@@ -73,8 +73,7 @@ console.log("hey", newUser );
         ? [...prevState.categories, value]
         : prevState.categories.filter(cat => cat !== value)
     }));
-  };
-  
+  };  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -160,6 +159,79 @@ console.log("hey", newUser );
     // Here you would add actual chatbot initialization logic
     console.log(`Starting chatbot for startup: ${startupId}`);
   };
+  const handlePredictSuccess = async (startup) => {
+    const inputData = {
+      funding_total_usd: startup.fundingTotalUsd || 28000000,
+      milestones: startup.milestones,
+      is_CA: 0,
+      is_NY: 0,
+      is_MA: 0,
+      is_TX: 0,
+      is_otherstate: 0,
+      is_software: 0,
+      is_web: 0,
+      is_mobile: 0,
+      is_enterprise: 0,
+      is_advertising: 0,
+      is_gamesvideo: 0,
+      is_ecommerce: 0,
+      is_biotech: 0,
+      is_consulting: 0,
+      is_othercategory: 0,
+      has_VC: 0,
+      has_angel: 0,
+      has_roundA: 0,
+      has_roundB: 0,
+      has_roundC: 0,
+      has_roundD: 0,
+      avg_participants: 0.0,
+      is_top500: 0
+    }
+    try {
+      const response = await fetch('http://127.0.0.1:5000/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(inputData)
+      })
+      const data = await response.json()
+      swal({
+        title: "Success Prediction",
+        text: `Predicted success for ${startup.name}: ${data.prediction || data.result || JSON.stringify(data)}`,
+        icon: "info",
+        button: "OK"
+      })
+    } catch (error) {
+      console.error("Error:", error)
+      swal("Error occurred while predicting success.")
+    }
+  }
+
+  const handlePredictFunding = async (startup) => {
+    const inputData = {
+      founded_year: startup.foundedYear,
+      num_funding_rounds: startup.fundingRounds,
+      num_investors: startup.investors,
+      num_milestones: startup.milestones,
+      num_local_competitors: 200
+    }
+    try {
+      const response = await fetch('http://127.0.0.1:8080/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(inputData)
+      })
+      const data = await response.json()
+      swal({
+        title: "Funding Prediction",
+        text: `Predicted funding for ${startup.name}: ${data.prediction || data.result || JSON.stringify(data)}`,
+        icon: "info",
+        button: "OK"
+      })
+    } catch (error) {
+      console.error("Error:", error)
+      swal("Error occurred while predicting funding.")
+    }
+  }
   
   return (
     <div className="investor-dashboard" style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
@@ -378,6 +450,60 @@ console.log("hey", newUser );
                         }}
                       >
                         Start Chatbot
+                      </button>
+
+                      <button 
+                        style={{
+                          background: 'transparent',
+                          border: '1px solid #f39c12',
+                          color: '#f39c12',
+                          padding: '8px 16px',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s',
+                          flex: '1'
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePredictSuccess(startup);
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = '#f39c12';
+                          e.currentTarget.style.color = 'white';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'transparent';
+                          e.currentTarget.style.color = '#f39c12';
+                        }}
+                      >
+                        Predict Success
+                      </button>
+                      
+                      <button 
+                        style={{
+                          background: 'transparent',
+                          border: '1px solid #9b59b6',
+                          color: '#9b59b6',
+                          padding: '8px 16px',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s',
+                          flex: '1'
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePredictFunding(startup);
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = '#9b59b6';
+                          e.currentTarget.style.color = 'white';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'transparent';
+                          e.currentTarget.style.color = '#9b59b6';
+                        }}
+                      >
+                        Predict Funding
                       </button>
                     </div>
                   </div>

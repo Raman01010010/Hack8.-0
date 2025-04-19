@@ -20,6 +20,7 @@ export default function Container1(){
           <Route path="/welcome" element={<><Welcome/></>} />
           <Route path="/investorSignup" element={<><InvestorSignUp/></>} />
           <Route path="/investor-login" element={<><InvestorLogin/></>} />
+                <Route path="/chat" element={<><ChatBot/></>} />
            
 
           <Route path="/" element={<><Home/></>} />
