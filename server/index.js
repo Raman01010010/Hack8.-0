@@ -51,6 +51,8 @@ app.use('/startups1',require('./routes/startup_Routes')); // Use startup_Routes 
 app.use('/startup',require('./routes/start'))
 app.use('/investor',require('./routes/start'))
 
+app.use('/fetch',require('./routes/bids'))
+
 app.use(verifyJWT)
 
 app.use('/service1', proxy('http://localhost:3501'));

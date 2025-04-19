@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Added for CORS support
 from tensorflow.keras.models import load_model
 from tensorflow.keras.losses import MeanSquaredError
 import joblib
@@ -7,6 +8,7 @@ import pandas as pd
 
 # Initialize Flask app
 app = Flask(__name__)
+CORS(app)  # Allow all CORS requests
 
 # Load model and scaler
 model = load_model('model1.h5', custom_objects={'mse': MeanSquaredError()})

@@ -4,8 +4,10 @@ from sklearn.preprocessing import StandardScaler
 import pandas as pd
 import numpy as np
 import joblib  # for loading the pre-fitted scaler if saved separately
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # Load model
 model = load_model('my_model.h5')
