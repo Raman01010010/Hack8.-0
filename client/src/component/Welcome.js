@@ -57,7 +57,7 @@ const Welcome = () => {
         </button>
         <button 
           style={{...styles.buttonBase, ...styles.investorButton}}
-          onClick={() => navigate('/investor-signup')}
+          onClick={() => navigate('/investorSignup')}
           onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
           onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
         >

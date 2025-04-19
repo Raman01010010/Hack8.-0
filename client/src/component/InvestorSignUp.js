@@ -64,10 +64,7 @@ const InvestorSignUp = () => {
       borderRadius: '4px',
       fontSize: '1rem',
       cursor: 'pointer',
-      marginTop: '1rem',
-      '&:hover': {
-        backgroundColor: '#1976D2'
-      }
+      marginTop: '1rem'
     }
   }
 
@@ -106,7 +103,7 @@ const InvestorSignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    
+
     if (!validateForm()) return;
 
     try {
@@ -217,6 +214,20 @@ const InvestorSignUp = () => {
           onMouseOut={(e) => !loading && (e.target.style.backgroundColor = '#2196F3')}
         >
           {loading ? 'Registering...' : 'Register as Investor'}
+        </button>
+
+        <button 
+          type="button"
+          style={{
+            ...styles.button,
+            backgroundColor: '#4CAF50',
+            marginTop: '0.5rem'
+          }}
+          onClick={() => navigate('/investor-login')}
+          onMouseOver={(e) => (e.target.style.backgroundColor = '#388E3C')}
+          onMouseOut={(e) => (e.target.style.backgroundColor = '#4CAF50')}
+        >
+          Sign in as Investor
         </button>
       </form>
     </div>

@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState ,useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { User } from "../context/User";
 const InvestorLogin = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+  
+  const newUser = useContext(User);
+    const userid = newUser.userid;
+    console.log("User:", newUser);
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -94,7 +99,7 @@ const InvestorLogin = () => {
 
       if (response.data.data.token) {
         localStorage.setItem('token', response.data.data.token);
-        navigate('/investor-dashboard');
+        navigate('/investor');
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please check your credentials.');

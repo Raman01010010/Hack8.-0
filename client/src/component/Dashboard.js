@@ -52,7 +52,7 @@ const Dashboard = () => {
         ...startupDetails,
         userid // Add userid to the payload
       };
-
+console.log("ffffff",userid);
       const response = await fetch('http://localhost:3500/startups/uploadDetail', {
         method: 'POST',
         headers: {
