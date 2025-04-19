@@ -8,6 +8,7 @@ import Persist from "./Persist";
 import Welcome from "./Welcome";
 import InvestorSignUp from "./InvestorSignUp";
 import InvestorLogin from "./InvestorLogin";
+import ChatBot from "./ChatBot";
 
 export default function Container1(){
     return(<>
@@ -26,6 +27,8 @@ export default function Container1(){
           <Route path="/otp" element={<><Otp/></>} />
           <Route path="/home2" element={<><Home/></>} />
           <Route path="/about" element={<><AboutUs/></>} />
+          <Route path="/chat" element={<><ChatBot/></>} />
+         
     </Routes>
 
     </>)
