@@ -66,7 +66,8 @@ const uploadDetails = async (req, res) => {
 
 const uploadMiddleware = upload.fields([
   { name: 'idCard', maxCount: 1 },
-  { name: 'bankPassbook', maxCount: 1 }
+  { name: 'bankPassbook', maxCount: 1 },
+  { name: 'pdfDocument', maxCount: 1 }
 ]);
 
 const uploadDocuments = async (req, res) => {
@@ -85,10 +86,10 @@ const uploadDocuments = async (req, res) => {
     }
 
     // Check for specific file fields
-    if (!req.files['idCard'] || !req.files['bankPassbook']) {
+    if (!req.files['idCard'] || !req.files['bankPassbook'] || !req.files['pdfDocument']) {
       return res.status(400).json({
         success: false,
-        message: 'Both ID Card and Bank Passbook files are required'
+        message: 'ID Card, Bank Passbook, and PDF Document files are all required'
       });
     }
 
@@ -102,14 +103,17 @@ const uploadDocuments = async (req, res) => {
 
     const idCard = req.files['idCard'][0].path;
     const bankPassbook = req.files['bankPassbook'][0].path;
+    const pdfDocument = req.files['pdfDocument'][0].path;
 
     const startup = await Startup.findOneAndUpdate(
       { userid },
       {
         idCard,
         bankPassbook,
+        pdfDocument,
         isIdVerified: false,
-        isBankPassbookVerified: false
+        isBankPassbookVerified: false,
+        isPdfDocumentVerified: false
       },
       { new: true }
     );
@@ -127,8 +131,10 @@ const uploadDocuments = async (req, res) => {
       data: {
         idCard: idCard.replace(/\\/g, '/'),
         bankPassbook: bankPassbook.replace(/\\/g, '/'),
+        pdfDocument: pdfDocument.replace(/\\/g, '/'),
         isIdVerified: startup.isIdVerified,
-        isBankPassbookVerified: startup.isBankPassbookVerified
+        isBankPassbookVerified: startup.isBankPassbookVerified,
+        isPdfDocumentVerified: startup.isPdfDocumentVerified
       }
     });
   } catch (error) {

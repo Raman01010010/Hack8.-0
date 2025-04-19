@@ -61,6 +61,10 @@ const startupSchema = new mongoose.Schema({
         type: String,
         required: [false]
     },
+    pdfDocument: {
+        type: String,
+        required: [false]
+    },
     isIdVerified: {
         type: Boolean,
         default: false // Default value is false
@@ -68,6 +72,10 @@ const startupSchema = new mongoose.Schema({
     isBankPassbookVerified: {
         type: Boolean,
         default: false // Default value is false
+    },
+    isPdfDocumentVerified: {
+        type: Boolean,
+        default: false
     },
     createdAt: {
         type: Date,

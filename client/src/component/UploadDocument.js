@@ -9,11 +9,13 @@ const UploadDocument = () => {
 
   const [documents, setDocuments] = useState({
     idCard: null,
-    bankPassbook: null
+    bankPassbook: null,
+    pdfDocument: null
   });
   const [preview, setPreview] = useState({
     idCard: null,
-    bankPassbook: null
+    bankPassbook: null,
+    pdfDocument: null
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -50,11 +52,13 @@ const UploadDocument = () => {
       formData.append('userid', userid);
       formData.append('idCard', documents.idCard);
       formData.append('bankPassbook', documents.bankPassbook);
+      formData.append('pdfDocument', documents.pdfDocument);
       
       // Log what we're sending
       console.log('Sending userid:', userid);
       console.log('Sending idCard:', documents.idCard?.name);
       console.log('Sending bankPassbook:', documents.bankPassbook?.name);
+      console.log('Sending pdfDocument:', documents.pdfDocument?.name);
 
       const response = await fetch('http://localhost:3500/startups/upload-documents', {
         method: 'POST',
@@ -182,7 +186,7 @@ const UploadDocument = () => {
     <div style={styles.container}>
       <header style={styles.header}>
         <h1 style={styles.title}>Document Verification</h1>
-        <p style={styles.subtitle}>Upload your ID card and bank passbook for verification</p>
+        <p style={styles.subtitle}>Upload your ID card, bank passbook, and PDF document for verification</p>
       </header>
 
       {error && (
@@ -241,6 +245,32 @@ const UploadDocument = () => {
                 alt="Bank Passbook Preview"
                 style={styles.previewImage}
               />
+            </div>
+          )}
+        </div>
+
+        <div style={styles.uploadSection}>
+          <h3 style={styles.sectionTitle}>
+            <span role="img" aria-label="pdf-document">📄</span> PDF Document
+          </h3>
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={(e) => handleFileChange(e, 'pdfDocument')}
+            required
+            style={styles.fileInput}
+          />
+          {preview.pdfDocument && (
+            <div style={styles.previewContainer}>
+              <object
+                data={preview.pdfDocument}
+                type="application/pdf"
+                width="100%"
+                height="250px"
+                style={styles.previewImage}
+              >
+                <p>PDF Preview not available. <a href={preview.pdfDocument} target="_blank" rel="noreferrer">Click to view</a></p>
+              </object>
             </div>
           )}
         </div>
