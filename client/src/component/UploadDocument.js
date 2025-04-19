@@ -67,9 +67,10 @@ const UploadDocument = () => {
       });
 
       const data = await response.json();
-      
+    
       if (response.ok) {
         let msg = 'Documents uploaded successfully! Waiting for verification.';
+      navigate('/my')
         if (data.idCardLink) {
           msg += ' ID Card Link: ' + data.idCardLink;
         }

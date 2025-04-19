@@ -103,7 +103,7 @@ const Img = () => {
           borderRadius: '4px'
         }}
       >
-        {loading ? 'Extracting...' : 'Extract Text'}
+        {loading ? 'Extracting...' : 'Extract Text to the ChatBot'}
       </button>
       <div
         style={{

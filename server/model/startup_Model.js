@@ -4,7 +4,7 @@ const startupSchema = new mongoose.Schema({
     userid: {
         type: mongoose.Schema.Types.ObjectId, // Reference to another document
         required: [true, 'userid is required'],
-        ref: 'User' // Name of the referenced model
+        ref: 'user_w' // Name of the referenced model
     },
     name: {
         type: String,
