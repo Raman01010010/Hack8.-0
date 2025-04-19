@@ -1,2 +1,4 @@
 Sun May 26 2024 14:08:02 GMT+0530 (India Standard Time)	dd5ec561-928b-41f7-bff4-2060f311c34e	Error :Not allowed by cors
 Sun May 26 2024 14:08:02 GMT+0530 (India Standard Time)	d70a5513-7ad9-416f-b63b-49f1e5f7176d	Error :Not allowed by cors
+Sat Apr 19 2025 11:37:17 GMT+0530 (India Standard Time)	6c1cbc59-b6bd-4011-85e0-9146cade0919	SyntaxError :Expected property name or '}' in JSON at position 4 (line 2 column 3)
+Sat Apr 19 2025 11:37:25 GMT+0530 (India Standard Time)	d030b63e-30d2-4dce-86f7-33ba7a0ec63a	SyntaxError :Expected double-quoted property name in JSON at position 36 (line 2 column 36)
