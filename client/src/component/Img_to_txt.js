@@ -1,6 +1,6 @@
 // ImgConverter.js
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { User } from "../context/User";
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist/build/pdf';
 
@@ -8,6 +8,7 @@ import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist/build/pdf';
 GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.js`;
 
 const ImgConverter = () => {
+  const axios=useAxiosPrivate();
   const [extractedText, setExtractedText] = useState('');
   const [pdfFile, setPdfFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -17,7 +18,7 @@ const ImgConverter = () => {
     setExtractedText('');
   };
 
-  const newUser = useContext(User);
+  const {newUser} = useContext(User);
   const userid = newUser.userid;
   console.log("User:", newUser);
 
@@ -61,7 +62,9 @@ const ImgConverter = () => {
       setExtractedText(text);
 
       // Send extracted text along with userid to /img/pitch route
-      const payload = { userid, pitch: text };
+      const startupid = "6802d29a0e985fb28ef92a4c";
+
+      const payload = { startupid, pitch: text };
       const response = await axios.post('/img/pitch', payload);
       console.log('Pitch sent successfully:', response.data);
     } catch (error) {
