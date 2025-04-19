@@ -1,11 +1,24 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import { User } from '../context/User';
 import { useNavigate } from 'react-router-dom';
+import { FaPaperPlane, FaRobot, FaUser, FaMagic, FaLightbulb } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+
 export default function ChatBot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-const {newUser}=useContext(User)
-console.log(newUser)
+  const { newUser } = useContext(User);
+  console.log(newUser);
+
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -23,7 +36,7 @@ console.log(newUser)
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          document:newUser.doc, //"Holi (IPA: ['hoːli:, hoːɭiː]) is a major Hindu festival celebrated as the Festival of Colours, Love, Equality and Spring.[1][7][8][9] It celebrates the eternal and divine love of the deities Radha and Krishna.[10][11] Additionally, the day signifies the triumph of good over evil,[12][13] as it commemorates the victory of Vishnu as Narasimha over Hiranyakashipu.[14][15] Holi originated and is predominantly celebrated in the Indian subcontinent, but has also spread to other regions of Asia and parts of the Western world through the Indian diaspora.",
+          document: newUser.doc,
           question: input
         })
       });
@@ -41,93 +54,96 @@ console.log(newUser)
   };
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.header}>📚 How can I help you with this pitch?</h2>
-
-      <div style={styles.messages}>
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            style={{
-              ...styles.message,
-              alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-              background: msg.sender === 'user' ? '#DCF8C6' : '#E6E6E6'
-            }}
-          >
-            {msg.text}
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black p-4 pt-24 md:pt-28 flex items-start justify-center">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-3xl bg-gradient-to-b from-blue-50 to-white rounded-2xl shadow-2xl overflow-hidden border border-blue-100"
+      >
+        {/* Header */}
+        <div className="bg-gradient-to-r from-blue-600 to-blue-800 p-4">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-white/10 rounded-lg">
+              <FaRobot className="text-3xl text-white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                AI Assistant <FaMagic className="text-yellow-300" />
+              </h2>
+              <p className="text-blue-200 flex items-center gap-2">
+                <FaLightbulb className="text-yellow-300" />
+                Ask me anything about the pitch
+              </p>
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
 
-      <div style={styles.inputContainer}>
-        <input
-          style={styles.input}
-          type="text"
-          value={input}
-          placeholder="Type a message..."
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') sendMessage();
-          }}
-        />
-        <button style={styles.button} onClick={sendMessage}>Send</button>
-      </div>
+        {/* Messages Container - reduced height from 500px to 400px */}
+        <div className="h-[400px] overflow-y-auto p-4 bg-blue-50/50">
+          <AnimatePresence>
+            <div className="space-y-4">
+              {messages.map((msg, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className={`flex items-start gap-3 ${
+                    msg.sender === 'user' ? 'flex-row-reverse' : ''
+                  }`}
+                >
+                  <div className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center ${
+                    msg.sender === 'user' 
+                      ? 'bg-gradient-to-r from-blue-600 to-blue-700' 
+                      : 'bg-gray-100'
+                  }`}>
+                    {msg.sender === 'user' ? 
+                      <FaUser className="text-white" /> : 
+                      <FaRobot className="text-gray-600" />
+                    }
+                  </div>
+                  <div className={`max-w-[80%] rounded-2xl px-6 py-3 ${
+                    msg.sender === 'user' 
+                      ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-tr-none' 
+                      : 'bg-white shadow-md rounded-tl-none border border-gray-100'
+                  }`}>
+                    <p className={`text-sm md:text-base ${
+                      msg.sender === 'user' ? 'text-white' : 'text-gray-700'
+                    }`}>{msg.text}</p>
+                  </div>
+                </motion.div>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+          </AnimatePresence>
+        </div>
+
+        {/* Input Area - reduced padding */}
+        <div className="p-3 border-t border-blue-100 bg-white">
+          <div className="flex gap-4">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') sendMessage();
+              }}
+              placeholder="Type your message here..."
+              className="flex-1 px-6 py-3 rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-blue-50/50"
+            />
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={sendMessage}
+              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl px-6 py-3 flex items-center gap-2 hover:shadow-lg transition-all duration-200"
+            >
+              <span className="hidden md:inline">Send</span>
+              <FaPaperPlane className="text-lg" />
+            </motion.button>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 }
-
-// Basic inline styles (you can move these to a CSS file)
-const styles = {
-  container: {
-    width: '800px',
-    margin: '50px auto',
-    padding: '20px',
-    border: '2px solid #ddd',
-    borderRadius: '10px',
-    background: '#fff',
-    fontFamily: 'sans-serif',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '10px'
-  },
-  header: {
-    margin: 0,
-    textAlign: 'center'
-  },
-  messages: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '10px',
-    overflowY: 'auto',
-    maxHeight: '300px',
-    padding: '10px',
-    border: '1px solid #ddd',
-    borderRadius: '5px',
-    background: '#f9f9f9'
-  },
-  message: {
-    padding: '10px',
-    borderRadius: '15px',
-    maxWidth: '70%',
-    wordBreak: 'break-word'
-  },
-  inputContainer: {
-    display: 'flex',
-    gap: '10px'
-  },
-  input: {
-    flex: 1,
-    padding: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ccc'
-  },
-  button: {
-    padding: '10px 15px',
-    borderRadius: '5px',
-    border: 'none',
-    background: '#4CAF50',
-    color: '#fff',
-    cursor: 'pointer'
-  }
-};
