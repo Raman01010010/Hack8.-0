@@ -6,6 +6,7 @@ import Dashboard from "./Dashboard";
 import Img_to_txt from "./Img_to_txt";
 import Investor from "./Investor";
 import UploadDocument from "./UploadDocument";
+import Img from "./Img";
 
 export default function Container1() {
     return (<>
@@ -19,7 +20,8 @@ export default function Container1() {
             <Route path ="/img" element={<><Img_to_txt/></>}></Route>
             <Route path ="/investor" element={<><Investor/></>}></Route>
             <Route path ="/details" element={<><Investor/></>}></Route>            <Route path="/chat" element={<><ChatBot/></>} />
-       
+            <Route path ="/img1/:startupid" element={<><Img/></>}></Route>
+         
         </Routes>
     </>)
 }
