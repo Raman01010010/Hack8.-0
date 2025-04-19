@@ -20,7 +20,6 @@ const handleBid = async (req, res) => {
         if (!startupId || !userId || biddingAmount === undefined) {
             return res.status(400).json({ message: "Missing required fields" });
         }
-
         const startup = await Startup.findById(startupId);
         if (!startup) {
             return res.status(404).json({ message: "Startup not found" });

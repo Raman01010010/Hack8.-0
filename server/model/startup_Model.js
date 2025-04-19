@@ -68,7 +68,7 @@ const startupSchema = new mongoose.Schema({
         required: false
     },
     biddedBy: [{
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'Investor', required: true },
         biddingAmount: { type: Number, required: true }
     }],
     pdfDocument: {
