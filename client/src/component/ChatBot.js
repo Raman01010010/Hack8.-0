@@ -54,14 +54,14 @@ export default function ChatBot() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black p-8 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black p-4 pt-24 md:pt-28 flex items-start justify-center">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-4xl bg-gradient-to-b from-blue-50 to-white rounded-2xl shadow-2xl overflow-hidden border border-blue-100"
+        className="w-full max-w-3xl bg-gradient-to-b from-blue-50 to-white rounded-2xl shadow-2xl overflow-hidden border border-blue-100"
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-800 p-6">
+        <div className="bg-gradient-to-r from-blue-600 to-blue-800 p-4">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-white/10 rounded-lg">
               <FaRobot className="text-3xl text-white" />
@@ -78,8 +78,8 @@ export default function ChatBot() {
           </div>
         </div>
 
-        {/* Messages Container */}
-        <div className="h-[500px] overflow-y-auto p-6 bg-blue-50/50">
+        {/* Messages Container - reduced height from 500px to 400px */}
+        <div className="h-[400px] overflow-y-auto p-4 bg-blue-50/50">
           <AnimatePresence>
             <div className="space-y-4">
               {messages.map((msg, index) => (
@@ -119,8 +119,8 @@ export default function ChatBot() {
           </AnimatePresence>
         </div>
 
-        {/* Input Area */}
-        <div className="p-4 border-t border-blue-100 bg-white">
+        {/* Input Area - reduced padding */}
+        <div className="p-3 border-t border-blue-100 bg-white">
           <div className="flex gap-4">
             <input
               type="text"
