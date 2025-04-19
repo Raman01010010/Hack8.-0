@@ -28,14 +28,18 @@ app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 app.use(cookieParser())
 
+
 app.use('/user',require('./routes/user'))
 app.use('/auth',require('./routes/auth'))
 app.use('/refresh',require('./routes/refresh'))
 
 //
+app.use('/investor_auth',require('./routes/investor_auth'))
+app.use('/startups',require('./routes/uploadDetails'));
 
 app.use(verifyJWT)
 app.use('/service1', proxy('http://localhost:3501'));
+
 
 
 app.all('/*',(req,res)=>{
