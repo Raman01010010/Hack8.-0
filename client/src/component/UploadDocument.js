@@ -36,20 +36,6 @@ const UploadDocument = () => {
     }
   };
 
-  // Add function to convert file to base64
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -57,34 +43,37 @@ const UploadDocument = () => {
     setLoading(true);
 
     try {
-      // Convert both images to base64
-      const idCardBase64 = await convertToBase64(documents.idCard);
-      const bankPassbookBase64 = await convertToBase64(documents.bankPassbook);
+      // Create a new FormData object
+      const formData = new FormData();
+      
+      // Append the files and userid
+      formData.append('userid', userid);
+      formData.append('idCard', documents.idCard);
+      formData.append('bankPassbook', documents.bankPassbook);
+      
+      // Log what we're sending
+      console.log('Sending userid:', userid);
+      console.log('Sending idCard:', documents.idCard?.name);
+      console.log('Sending bankPassbook:', documents.bankPassbook?.name);
 
-      // Send base64 strings to server
       const response = await fetch('http://localhost:3500/startups/upload-documents', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userid,
-          idCard: idCardBase64,
-          bankPassbook: bankPassbookBase64
-        })
+        // Do not set Content-Type header - the browser will set it automatically with boundary
+        body: formData
       });
 
+      const data = await response.json();
+      
       if (response.ok) {
         setSuccess('Documents uploaded successfully! Waiting for verification.');
-        console.log('Documents uploaded successfully! Waiting for verification.');
-        // navigate('/dashboard');
+        console.log('Upload successful:', data);
       } else {
-        const data = await response.json();
         setError(data.message || 'Failed to upload documents');
+        console.error('Upload failed:', data);
       }
     } catch (err) {
       setError('An error occurred while uploading documents');
-      console.error(err);
+      console.error('Upload error:', err);
     } finally {
       setLoading(false);
     }
@@ -207,14 +196,18 @@ const UploadDocument = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} style={styles.form}>
+      <form
+        onSubmit={handleSubmit}
+        style={styles.form}
+        encType="multipart/form-data"
+      >
         <div style={styles.uploadSection}>
           <h3 style={styles.sectionTitle}>
             <span role="img" aria-label="id-card">🪪</span> ID Card
           </h3>
           <input
             type="file"
-            accept="image/*"
+            accept="image/*,application/pdf"
             onChange={(e) => handleFileChange(e, 'idCard')}
             required
             style={styles.fileInput}
@@ -236,7 +229,7 @@ const UploadDocument = () => {
           </h3>
           <input
             type="file"
-            accept="image/*"
+            accept="image/*,application/pdf"
             onChange={(e) => handleFileChange(e, 'bankPassbook')}
             required
             style={styles.fileInput}
