@@ -1,8 +1,11 @@
-import { useState } from 'react';
-
+import { useContext, useState } from 'react';
+import { User } from '../context/User';
+import { useNavigate } from 'react-router-dom';
 export default function ChatBot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+const {newUser}=useContext(User)
+console.log(newUser)
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -20,7 +23,7 @@ export default function ChatBot() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          document: "Holi (IPA: ['hoːli:, hoːɭiː]) is a major Hindu festival celebrated as the Festival of Colours, Love, Equality and Spring.[1][7][8][9] It celebrates the eternal and divine love of the deities Radha and Krishna.[10][11] Additionally, the day signifies the triumph of good over evil,[12][13] as it commemorates the victory of Vishnu as Narasimha over Hiranyakashipu.[14][15] Holi originated and is predominantly celebrated in the Indian subcontinent, but has also spread to other regions of Asia and parts of the Western world through the Indian diaspora.",
+          document:newUser.doc, //"Holi (IPA: ['hoːli:, hoːɭiː]) is a major Hindu festival celebrated as the Festival of Colours, Love, Equality and Spring.[1][7][8][9] It celebrates the eternal and divine love of the deities Radha and Krishna.[10][11] Additionally, the day signifies the triumph of good over evil,[12][13] as it commemorates the victory of Vishnu as Narasimha over Hiranyakashipu.[14][15] Holi originated and is predominantly celebrated in the Indian subcontinent, but has also spread to other regions of Asia and parts of the Western world through the Indian diaspora.",
           question: input
         })
       });

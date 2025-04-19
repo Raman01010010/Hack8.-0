@@ -3,11 +3,13 @@ import React, { useState, useContext } from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { User } from "../context/User";
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist/build/pdf';
+import { useNavigate } from 'react-router-dom';
 
 // Use worker from public folder
 GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.js`;
 
 const ImgConverter = () => {
+  const navigate=useNavigate()
   const axios=useAxiosPrivate();
   const [extractedText, setExtractedText] = useState('');
   const [pdfFile, setPdfFile] = useState(null);
@@ -18,7 +20,7 @@ const ImgConverter = () => {
     setExtractedText('');
   };
 
-  const {newUser} = useContext(User);
+  const {newUser,setNewUser} = useContext(User);
   const userid = newUser.userid;
   console.log("User:", newUser);
 
@@ -63,10 +65,14 @@ const ImgConverter = () => {
 
       // Send extracted text along with userid to /img/pitch route
       const startupid = "6802d29a0e985fb28ef92a4c";
-
+      setNewUser((old)=>{
+        return({...old,
+          "doc":text})
+      })
       const payload = { startupid, pitch: text };
       const response = await axios.post('/img/pitch', payload);
       console.log('Pitch sent successfully:', response.data);
+      navigate('/chat')
     } catch (error) {
       console.error('Error extracting text or sending pitch:', error);
       setExtractedText('❌ Failed to extract or send text from PDF.');
