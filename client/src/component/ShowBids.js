@@ -2,6 +2,34 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { User } from '../context/User';
 import { FaSearch, FaChartLine, FaUserTie, FaMoneyBillWave } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+
+const AnimatedBackground = () => (
+  <div className="fixed inset-0 -z-10">
+    {[...Array(20)].map((_, i) => (
+      <motion.div
+        key={i}
+        className="absolute rounded-full bg-blue-100/30"
+        style={{
+          width: Math.random() * 100 + 50,
+          height: Math.random() * 100 + 50,
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+        }}
+        animate={{
+          scale: [1, 1.2, 1],
+          x: [0, Math.random() * 100 - 50, 0],
+          y: [0, Math.random() * 100 - 50, 0],
+        }}
+        transition={{
+          duration: Math.random() * 10 + 10,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+    ))}
+  </div>
+);
 
 const ShowBids = () => {
   const [bids, setBids] = useState([]);
@@ -40,23 +68,34 @@ const ShowBids = () => {
   };
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-slate-800 to-slate-900">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 to-indigo-50">
+      <AnimatedBackground />
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
     </div>
   );
 
   if (error) return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-slate-800 to-slate-900 text-white">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 to-indigo-50 text-red-500">
+      <AnimatedBackground />
       {error}
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-900 via-slate-800 to-slate-900 p-8 pt-20">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-8 pt-20 relative overflow-hidden">
+      <AnimatedBackground />
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-7xl mx-auto space-y-8 relative z-10"
+      >
         {/* Stats Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 text-white border border-white/10 hover:bg-white/10 transition-all duration-300">
+          <motion.div 
+            whileHover={{ scale: 1.02 }}
+            className="bg-white/80 backdrop-blur-lg rounded-xl p-6 text-gray-800 border border-blue-100 shadow-lg"
+          >
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm opacity-70">Total Bids</p>
@@ -64,8 +103,11 @@ const ShowBids = () => {
               </div>
               <FaChartLine className="text-3xl opacity-70" />
             </div>
-          </div>
-          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 text-white border border-white/10 hover:bg-white/10 transition-all duration-300">
+          </motion.div>
+          <motion.div 
+            whileHover={{ scale: 1.02 }}
+            className="bg-white/80 backdrop-blur-lg rounded-xl p-6 text-gray-800 border border-blue-100 shadow-lg"
+          >
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm opacity-70">Total Amount</p>
@@ -73,8 +115,11 @@ const ShowBids = () => {
               </div>
               <FaMoneyBillWave className="text-3xl opacity-70" />
             </div>
-          </div>
-          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 text-white border border-white/10 hover:bg-white/10 transition-all duration-300">
+          </motion.div>
+          <motion.div 
+            whileHover={{ scale: 1.02 }}
+            className="bg-white/80 backdrop-blur-lg rounded-xl p-6 text-gray-800 border border-blue-100 shadow-lg"
+          >
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm opacity-70">Average Equity</p>
@@ -82,10 +127,15 @@ const ShowBids = () => {
               </div>
               <FaUserTie className="text-3xl opacity-70" />
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        <div className="bg-white/[0.96] backdrop-blur-lg rounded-xl shadow-xl p-8">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="bg-white/90 backdrop-blur-lg rounded-xl shadow-xl p-8"
+        >
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold text-gray-800">Bids on My Startups</h1>
             <div className="relative">
@@ -113,7 +163,7 @@ const ShowBids = () => {
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
-                <thead className="bg-gradient-to-r from-slate-800 to-slate-700 text-white">
+                <thead className="bg-gradient-to-r from-blue-100 to-indigo-100 text-gray-700">
                   <tr>
                     <th className="px-6 py-4 text-left font-semibold text-lg">Startup Name</th>
                     <th className="px-6 py-4 text-left font-semibold text-lg">Investor Name</th>
@@ -157,8 +207,8 @@ const ShowBids = () => {
               </table>
             </div>
           )}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };
