@@ -1,4 +1,27 @@
+const multer = require('multer');
+const path = require('path');
 const Startup = require('../model/startup_Model'); // Import your Startup model
+
+// Configure multer storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, '../../uploads'));
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const allowed = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+    if (!allowed.includes(file.mimetype)) {
+      return cb(new Error('File type not allowed'), false);
+    }
+    cb(null, true);
+  }
+});
 
 const uploadDetails = async (req, res) => {
     try {
@@ -41,73 +64,102 @@ const uploadDetails = async (req, res) => {
     }
 };
 
+const uploadMiddleware = upload.fields([
+  { name: 'idCard', maxCount: 1 },
+  { name: 'bankPassbook', maxCount: 1 },
+  { name: 'pdfDocument', maxCount: 1 }
+]);
+
 const uploadDocuments = async (req, res) => {
-    try {
-        const { userid, idCard, bankPassbook } = req.body;
-
-        // Validate required fields
-        if (!userid || !idCard || !bankPassbook) {
-            return res.status(400).json({
-                success: false,
-                message: 'All documents and userid are required'
-            });
-        }
-        
-        // Validate base64 string format
-        const isBase64 = (str) => {
-            try {
-                return Buffer.from(str.split(',')[1], 'base64').length > 0;
-            } catch (err) {
-                return false;``
-            }
-        };
-
-        if (!isBase64(idCard) || !isBase64(bankPassbook)) {
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid image format. Images must be base64 encoded.'
-            });
-        }
-
-        // Update startup documents
-        const startup = await Startup.findOneAndUpdate(
-            { userid },
-            {
-                idCard,
-                bankPassbook,
-                isIdVerified: false,
-                isBankPassbookVerified: false
-            },
-            { new: true }
-        );
-
-        if (!startup) {
-            return res.status(404).json({
-                success: false,
-                message: 'Startup not found. Please create startup details first.'
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            message: 'Documents uploaded successfully',
-            data: {
-                isIdVerified: startup.isIdVerified,
-                isBankPassbookVerified: startup.isBankPassbookVerified
-            }
-        });
-
-    } catch (error) {
-        console.error('Error uploading documents:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Internal server error',
-            error: error.message
-        });
+  try {
+    // Debug logs
+    console.log('Content-Type:', req.headers['content-type']);
+    console.log('req.body:', req.body);
+    console.log('req.files:', req.files);
+    
+    // If req.files is undefined, multer middleware isn't working
+    if (!req.files) {
+      return res.status(400).json({
+        success: false,
+        message: 'File upload middleware failed. Check server configuration.'
+      });
     }
+
+    // Check for specific file fields
+    if (!req.files['idCard'] || !req.files['bankPassbook'] || !req.files['pdfDocument']) {
+      return res.status(400).json({
+        success: false,
+        message: 'ID Card, Bank Passbook, and PDF Document files are all required'
+      });
+    }
+
+    const { userid } = req.body;
+    if (!userid) {
+      return res.status(400).json({
+        success: false,
+        message: 'User ID is required'
+      });
+    }
+
+    const idCard = req.files['idCard'][0].path;
+    const bankPassbook = req.files['bankPassbook'][0].path;
+    const pdfDocument = req.files['pdfDocument'][0].path;
+
+    // New: generate public URLs for each uploaded file
+    const idCardLink = `${req.protocol}://${req.get('host')}/uploads/${path.basename(idCard)}`;
+    const bankPassbookLink = `${req.protocol}://${req.get('host')}/uploads/${path.basename(bankPassbook)}`;
+    const pdfDocumentLink = `${req.protocol}://${req.get('host')}/uploads/${path.basename(pdfDocument)}`;
+
+    const startup = await Startup.findOneAndUpdate(
+      { userid },
+      {
+        idCard,
+        bankPassbook,
+        pdfDocument,
+        idCardLink,
+        bankPassbookLink,
+        pdfDocumentLink,
+        isIdVerified: false,
+        isBankPassbookVerified: false,
+        isPdfDocumentVerified: false
+      },
+      { new: true }
+    );
+
+    if (!startup) {
+      return res.status(404).json({
+        success: false,
+        message: 'Startup not found. Please create startup details first.'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Documents uploaded successfully',
+      data: {
+        idCard: idCard.replace(/\\/g, '/'),
+        bankPassbook: bankPassbook.replace(/\\/g, '/'),
+        pdfDocument: pdfDocument.replace(/\\/g, '/'),
+        idCardLink,
+        bankPassbookLink,
+        pdfDocumentLink,
+        isIdVerified: startup.isIdVerified,
+        isBankPassbookVerified: startup.isBankPassbookVerified,
+        isPdfDocumentVerified: startup.isPdfDocumentVerified
+      }
+    });
+  } catch (error) {
+    console.error('Error uploading documents:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error.message
+    });
+  }
 };
 
 module.exports = { 
     uploadDetails,
-    uploadDocuments 
+    uploadDocuments,
+    uploadMiddleware
 };

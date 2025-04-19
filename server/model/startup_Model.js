@@ -61,11 +61,32 @@ const startupSchema = new mongoose.Schema({
     },
     idCard: {
         type: String,
-        required: [false]
+        required: false
     },
     bankPassbook: {
         type: String,
+        required: false
+    },
+    biddedBy: [{
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+        biddingAmount: { type: Number, required: true }
+    }],
+    pdfDocument: {
+        type: String,
         required: [false]
+    },
+    // New fields: separate links for each document
+    idCardLink: {
+        type: String,
+        required: false
+    },
+    bankPassbookLink: {
+        type: String,
+        required: false
+    },
+    pdfDocumentLink: {
+        type: String,
+        required: false
     },
     isIdVerified: {
         type: Boolean,
@@ -74,6 +95,10 @@ const startupSchema = new mongoose.Schema({
     isBankPassbookVerified: {
         type: Boolean,
         default: false // Default value is false
+    },
+    isPdfDocumentVerified: {
+        type: Boolean,
+        default: false
     },
     createdAt: {
         type: Date,
