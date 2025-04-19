@@ -9,7 +9,7 @@ import Navbar2 from './component/Navbar2';
 
 function App() {
 
-  const [newUser, setNewUser] = React.useState({ "investor":"fjnjf","email": "", "username": "", "pwd": "", "name": "", "accessToken": "","userid":"" })
+  const [newUser, setNewUser] = React.useState({ "investor":"","doc":"","email": "", "username": "", "pwd": "", "name": "", "accessToken": "","userid":"" })
   const [loc,setLoc]=React.useState([]) 
    const [parkingLots, setParkingLots] = React.useState([]);
   const [arrivalDate, setArrivalDate] = React.useState('');

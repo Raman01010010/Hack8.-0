@@ -53,6 +53,12 @@ const startupSchema = new mongoose.Schema({
         required: [true, 'Number of milestones is required'],
         min: [0, 'Number of milestones cannot be negative']
     },
+    pitch: {
+        type: String,
+        required: [false],
+        trim: true,
+        // maxlength: [100000, 'Pitch cannot be more than 10000 characters']
+    },
     idCard: {
         type: String,
         required: false

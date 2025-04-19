@@ -32,7 +32,7 @@ app.use(cookieParser())
 app.use('/user',require('./routes/user'))
 app.use('/auth',require('./routes/auth'))
 app.use('/refresh',require('./routes/refresh'))
-
+app.use('/chat',require('./routes/chat'))
 //
 app.use('/img',require('./routes/img'))
 app.use('/investor_auth',require('./routes/investor_auth'))
@@ -41,6 +41,7 @@ app.use('/startup',require('./routes/start'))
 app.use('/investor',require('./routes/start'))
 
 app.use(verifyJWT)
+
 app.use('/service1', proxy('http://localhost:3501'));
 
 
