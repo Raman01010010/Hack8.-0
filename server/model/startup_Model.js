@@ -55,12 +55,17 @@ const startupSchema = new mongoose.Schema({
     },
     idCard: {
         type: String,
-        required: [false]
+        required: false
     },
     bankPassbook: {
         type: String,
-        required: [false]
+        required: false
     },
+    biddedBy: [{
+        // Updated to store an object with the bidder's user id and bidding amount
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+        biddingAmount: { type: Number, required: true }
+    }],
     isIdVerified: {
         type: Boolean,
         default: false // Default value is false

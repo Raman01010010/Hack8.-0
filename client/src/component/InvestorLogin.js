@@ -1,18 +1,16 @@
-import React, { useState ,useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { User } from "../context/User";
+
 const InvestorLogin = () => {
   const navigate = useNavigate();
+  const { newUser, setNewUser } = useContext(User);
+  
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-  
-  const newUser = useContext(User);
-    const userid = newUser.userid;
-    console.log("User:", newUser);
-
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -95,10 +93,12 @@ const InvestorLogin = () => {
         email: formData.email,
         password: formData.password
       });
-      // console.log("hellow" , response.data.data.token);
 
       if (response.data.data.token) {
+        // Store token in localStorage
         localStorage.setItem('token', response.data.data.token);
+        // Update newUser context with investor token
+        setNewUser({ ...newUser, investor: response.data.data.token });
         navigate('/investor');
       }
     } catch (err) {
@@ -107,6 +107,7 @@ const InvestorLogin = () => {
       setLoading(false);
     }
   };
+
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Investor Login</h1>

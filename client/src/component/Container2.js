@@ -18,7 +18,7 @@ export default function Container1() {
             <Route path="/upload_documents" element={<><UploadDocument/></>} />
             <Route path ="/img" element={<><Img_to_txt/></>}></Route>
             <Route path ="/investor" element={<><Investor/></>}></Route>
-
+            <Route path ="/details" element={<><Investor/></>}></Route>
         </Routes>
     </>)
 }

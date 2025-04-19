@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const investorSchema = new mongoose.Schema({
-
     name: {
         type: String,
         required: [true, 'Name is required'],
@@ -29,6 +28,11 @@ const investorSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'Experience is required']
     },
+    bidded_to: [{
+        // Updated to store an object with the startup id and the bidding amount
+        startupId: { type: mongoose.Schema.Types.ObjectId, ref: 'Startup', required: true },
+        biddingAmount: { type: Number, required: true }
+    }],
     createdAt: {
         type: Date,
         default: Date.now
