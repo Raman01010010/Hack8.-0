@@ -6,6 +6,8 @@ import AboutUs from "./AboutUs";
 import Otp from "./Otp";
 import Persist from "./Persist";
 import ChatBot from "./ChatBot";
+import StartupNetWorthCalculator from "./Calculate_worth";
+import FundingRiskCalculator from "./Calculate_risk";
 
 export default function Container1(){
     return(<>
@@ -19,6 +21,8 @@ export default function Container1(){
           <Route path="/home2" element={<><Home/></>} />
           <Route path="/about" element={<><AboutUs/></>} />
           <Route path="/chat" element={<><ChatBot/></>} />
+          <Route path="/calculate_worth" element={<><StartupNetWorthCalculator /></>} />
+          <Route path="/calculate_risk" element={<><FundingRiskCalculator /></>} />
          
     </Routes>
 
