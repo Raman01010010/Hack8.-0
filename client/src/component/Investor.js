@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState ,useContext} from 'react';
 import axios from 'axios';
+import { User } from '../context/User';
 
 const Investor = () => {
+  const { newUser } = useContext(User);
+  
+console.log("hey", newUser );
+
   const [formData, setFormData] = useState({
     minFundingRounds: 0,
     maxFundingRounds: 10,

@@ -9,11 +9,12 @@ import Welcome from "./Welcome";
 import InvestorSignUp from "./InvestorSignUp";
 import InvestorLogin from "./InvestorLogin";
 import ChatBot from "./ChatBot";
+import A1 from "./A1";
 
 export default function Container1(){
     return(<>
     <Persist/>
-
+       <A1> </A1>
           <Routes>
 
           <Route path="/welcome" element={<><Welcome/></>} />

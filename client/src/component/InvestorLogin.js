@@ -98,7 +98,9 @@ const InvestorLogin = () => {
       // console.log("hellow" , response.data.data.token);
 
       if (response.data.data.token) {
+        // Save token and investor.id to localStorage
         localStorage.setItem('token', response.data.data.token);
+        localStorage.setItem('investorId', response.data.data.investor.id);
         navigate('/investor');
       }
     } catch (err) {
