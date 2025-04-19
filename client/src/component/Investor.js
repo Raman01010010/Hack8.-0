@@ -2,13 +2,15 @@ import React, { useState, useEffect, useContext } from 'react';
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import swal from 'sweetalert';
 import { User } from "../context/User";
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 const Investor = () => {
+  const navigate=useNavigate()
  // const { newUser } = useContext(User);
- const { newUser } = useContext(User);
+ const { newUser,setNewUser } = useContext(User);
 console.log("hey", newUser );
-
+  
   const [activeTab, setActiveTab] = useState('findStartups');
   const [formData, setFormData] = useState({
     categories: [],
@@ -139,6 +141,24 @@ console.log("hey", newUser );
       console.error(err);
       swal("Failed to place your bid. Please try again.");
     }
+  };
+  
+  // Add a function to handle chatbot initiation
+  const startChatbot = (startupId, startupName,pitch) => {
+    setNewUser((old)=>{return({
+      ...old,
+      "doc":pitch
+    })})
+    navigate('/chat')
+    // swal({
+    //   title: `Starting chatbot for ${startupName}`,
+    //   text: "The chatbot is initializing...",
+    //   icon: "info",
+    //   button: false,
+    //   timer: 2000
+    // });
+    // Here you would add actual chatbot initialization logic
+    console.log(`Starting chatbot for startup: ${startupId}`);
   };
   
   return (
@@ -308,29 +328,58 @@ console.log("hey", newUser );
                       <p><strong>Milestones:</strong> {startup.milestones}</p>
                     </div>
                     
-                    <button 
-                      style={{
-                        background: 'transparent',
-                        border: '1px solid #3498db',
-                        color: '#3498db',
-                        padding: '8px 16px',
-                        borderRadius: '4px',
-                        marginTop: '10px',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s'
-                      }}
-                      onClick={() => openModal(startup)}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = '#3498db';
-                        e.currentTarget.style.color = 'white';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'transparent';
-                        e.currentTarget.style.color = '#3498db';
-                      }}
-                    >
-                      View Details
-                    </button>
+                    <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                      <button 
+                        style={{
+                          background: 'transparent',
+                          border: '1px solid #3498db',
+                          color: '#3498db',
+                          padding: '8px 16px',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s',
+                          flex: '1'
+                        }}
+                        onClick={() => openModal(startup)}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = '#3498db';
+                          e.currentTarget.style.color = 'white';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'transparent';
+                          e.currentTarget.style.color = '#3498db';
+                        }}
+                      >
+                        View Details
+                      </button>
+                      
+                      <button 
+                        style={{
+                          background: 'transparent',
+                          border: '1px solid #27ae60',
+                          color: '#27ae60',
+                          padding: '8px 16px',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s',
+                          flex: '1'
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          startChatbot(startup._id, startup.name,startup.pitch);
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = '#27ae60';
+                          e.currentTarget.style.color = 'white';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'transparent';
+                          e.currentTarget.style.color = '#27ae60';
+                        }}
+                      >
+                        Start Chatbot
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -389,28 +438,57 @@ console.log("hey", newUser );
                     <p><strong>Milestones:</strong> {startup.milestones}</p>
                   </div>
                   
-                  <button 
-                    style={{
-                      background: 'transparent',
-                      border: '1px solid #3498db',
-                      color: '#3498db',
-                      padding: '8px 16px',
-                      borderRadius: '4px',
-                      marginTop: '10px',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#3498db';
-                      e.currentTarget.style.color = 'white';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.color = '#3498db';
-                    }}
-                  >
-                    View Details
-                  </button>
+                  <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                    <button 
+                      style={{
+                        background: 'transparent',
+                        border: '1px solid #3498db',
+                        color: '#3498db',
+                        padding: '8px 16px',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s',
+                        flex: '1'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#3498db';
+                        e.currentTarget.style.color = 'white';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.color = '#3498db';
+                      }}
+                    >
+                      View Details
+                    </button>
+                    
+                    <button 
+                      style={{
+                        background: 'transparent',
+                        border: '1px solid #27ae60',
+                        color: '#27ae60',
+                        padding: '8px 16px',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s',
+                        flex: '1'
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        startChatbot(startup._id, startup.name);
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#27ae60';
+                        e.currentTarget.style.color = 'white';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.color = '#27ae60';
+                      }}
+                    >
+                      Start Chatbot
+                    </button>
+                  </div>
                 </div>
               );
             })}
