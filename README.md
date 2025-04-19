@@ -1,24 +1,49 @@
-# Hack8.-0
+<h1 align="center">MERNingfuls</h1>
+<p align="center">
+</p>
 
-## API Server Setup
+<a href="https://hack36.in"> <img src="https://postimage.me/images/2025/04/19/built-at-hack36.png" height=24px> </a>
 
-Follow these steps to prepare and run the prediction API server:
 
-- No external scaler file is needed; the API fits a `StandardScaler` on incoming request data at runtime.
+## Introduction:
+  1. Startup Investment Platform
+Connects investors with startups.
+2. 24x7 Personalized Chatbot
+Dedicated AI chatbot for each startup to handle investor queries.
+3. Bidding System
+Investors bid for startup equity, enabling competitive investment.
+4. Risk/Success Prediction
+AI predicts startup potential and risk based on real-world data.
+5. Net Worth & ROI Estimation
+Calculates estimated valuation and investor returns.
+  
+## Demo Video Link:
+  <a href="#"></a>
+  
+## Presentation Link:
+  <a href=""> PPT link here </a>
+  
+  
+## Table of Contents:
 
-2. Install required Python packages:
+## Technology Stack:
+ 0.julep-ai
+ 1.React.js 
+ 2.Node.js
+ 3.Flask
+ 4.Python
+ 5.MongoDB
+  
 
-```bash
-pip install fastapi uvicorn[standard] pandas tensorflow scikit-learn
-```
+## Contributors:
 
-3. Place `my_model.h5` in the project root alongside `app.py`.
+Team Name: Level_Sabke_Niklenge
 
-4. Start the server:
+- [PRAJAPATI RAMAN](https://github.com/Raman01010010)
+- [Priyanshu Singh](https://github.com/Priyanshusingh3192)
+- [Vivek Chaudhary](https://github.com/Vivek9744)
+- [Tanishq Seth]()
 
-```bash
-# On Windows, if 'uvicorn' isn't recognized, use:
-python -m uvicorn app:app --reload
-```
 
-The API will be available at `http://127.0.0.1:8000/predict` and accepts a JSON array of feature objects matching the `DataPoint` schema.
+### Made at:
+<a href="https://hack36.in"> <img src="https://postimage.me/images/2025/04/19/built-at-hack36.png" height=24px> </a>
