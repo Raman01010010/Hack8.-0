@@ -74,7 +74,7 @@ export default function Signin() {
         const roles = res?.data?.roles;
         setNewUser({ "email": login.email,"userid":login.userid, "pwd": login.pwd, roles, accessToken: res?.data?.accessToken, picture: res?.data?.picture, username: res?.data?.username, email: res?.data?.email });
 
-        navigate('/dashboard')
+        navigate('/choose')
         setLoading(false)
       }, 3000)
     } else {
