@@ -4,7 +4,6 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { User } from "../context/User";
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist/build/pdf';
 import { useNavigate } from 'react-router-dom';
-
 // Use worker from public folder
 GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.js`;
 
@@ -14,7 +13,6 @@ const ImgConverter = () => {
   const [extractedText, setExtractedText] = useState('');
   const [pdfFile, setPdfFile] = useState(null);
   const [loading, setLoading] = useState(false);
-
   const handleFileChange = (e) => {
     setPdfFile(e.target.files[0]);
     setExtractedText('');
