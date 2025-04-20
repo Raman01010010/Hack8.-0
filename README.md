@@ -18,7 +18,7 @@ AI predicts startup potential and risk based on real-world data.
 Calculates estimated valuation and investor returns.
   
 ## Demo Video Link:
-  <a href="#"></a>
+  <a href="https://youtu.be/fFQp-3D3eco?feature=shared">video</a>
   
 ## Presentation Link:
   <a href=""> PPT link here </a>
