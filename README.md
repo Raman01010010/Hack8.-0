@@ -21,7 +21,8 @@ Calculates estimated valuation and investor returns.
   <a href="https://youtu.be/fFQp-3D3eco?feature=shared">video</a>
   
 ## Presentation Link:
- <a href="[https://docs.google.com/presentation/d/1jdbAk014BVfkpuQLDQCmcFvdIbhlGLaF/edit?usp=sharing" target="_blank](https://docs.google.com/presentation/d/1jdbAk014BVfkpuQLDQCmcFvdIbhlGLaF/edit?usp=sharing&ouid=102045568133708899676&rtpof=true&sd=true)">PPT link here</a>
+<a href="https://docs.google.com/presentation/d/1jdbAk014BVfkpuQLDQCmcFvdIbhlGLaF/edit?usp=sharing&ouid=102045568133708899676&rtpof=true&sd=true" target="_blank">PPT link here</a>
+
 
   
   
