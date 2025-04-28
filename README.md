@@ -39,7 +39,7 @@ Calculates estimated valuation and investor returns.
 
 ## Contributors:
 
-Team Name: Level_Sabke_Niklenge
+Team Name: Merningfuls
 
 - [PRAJAPATI RAMAN](https://github.com/Raman01010010)
 - [Priyanshu Singh](https://github.com/Priyanshusingh3192)
