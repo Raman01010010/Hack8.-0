@@ -2,77 +2,61 @@ import { User } from "../context/User"
 import { useContext } from "react"
 import React from "react"
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
-import { addClient, addUser, getEmp, verifyUser } from "../api/api"
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { addUser, verifyUser } from "../api/api"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Box, CircularProgress, LinearProgress } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 
 export default function Signin() {
-  const [col, setCol] = React.useState('gray')
-  const { newUser, setNewUser } = useContext(User)
+  const [emailExists, setEmailExists] = React.useState(false)
+  const { setNewUser } = useContext(User)
   const [login, setLogin] = React.useState({ "email": "", "pwd": "" })
-  const { setAuth } = useAuth();
   const navigate = useNavigate();
   const [loading,setLoading]=React.useState(false)
 
 
   React.useEffect(() => {
-    const delay = 500; // Adjust the delay as needed
-    const timerId = setTimeout(() => {
-      // Make the API call when the user stops typing
-      const check = async () => {
-        const t = await addUser(newUser
-
-        )
-        if (t.status == 200) {
-          setCol('red')
+    // Only check email if it's a valid email format and different from login email
+    if (login.email && login.email.includes('@') && login.email.length > 5) {
+      const delay = 800; // Increased delay for better debouncing
+      const timerId = setTimeout(() => {
+        // Make the API call when the user stops typing
+        const check = async () => {
+          try {
+            const t = await addUser({ email: login.email })
+            if (t.status === 200 && t.data?.email) {
+              setEmailExists(true)
+            } else {
+              setEmailExists(false)
+            }
+          } catch (error) {
+            console.error('Error checking email:', error)
+            setEmailExists(false)
+          }
         }
-        if ((!t.data?.email)) {
-          setCol('gray')
-        }
-        console.log(t.data)
-      }
-      check();
-      console.log("ramanc")
+        check();
+      }, delay);
 
-    }, delay);
-
-    return () => {
-      // Cleanup the timer when the component unmounts or when searchQuery changes
-      clearTimeout(timerId);
-    };
-  }, [newUser]);
+      return () => {
+        clearTimeout(timerId);
+      };
+    } else {
+      setEmailExists(false)
+    }
+  }, [login.email]);
 
 
-  var at;
-  const axiosPrivate = useAxiosPrivate()
-  async function hand() {
-    const res = await axiosPrivate.get(`/employees`
-    )
-    console.log(res)
-    at = res?.data?.accessToken;
-    console.log(at)
-    
-
-
-
-  }
- 
   async function handleSubmit() {
     setLoading(true)
     const res = await verifyUser(login)
     console.log(res)
-   
-    if (res.status == 200 || res.status == 201 || res.status == 202) {
+
+    if (res.status === 200 || res.status === 201 || res.status === 202) {
       await toast("Login Successful! Redirecting to Dashboard!");
       setTimeout(() => {
 
         console.log(res)
-        const accessToken = res?.data?.accessToken;
-        const roles = res?.data?.roles;
-        setNewUser({ "email": login.email,"userid":login.userid, "pwd": login.pwd, roles, accessToken: res?.data?.accessToken, picture: res?.data?.picture, username: res?.data?.username, email: res?.data?.email });
+        setNewUser({ "email": login.email,"userid":login.userid, "pwd": login.pwd, roles: res?.data?.roles, accessToken: res?.data?.accessToken, picture: res?.data?.picture, username: res?.data?.username });
 
         navigate('/choose')
         setLoading(false)
@@ -129,8 +113,11 @@ export default function Signin() {
                 id="email"
                 name="email"
                 value={login.email}
-                className={`w-full bg-${col}-600 bg-opacity-20  focus:ring-2 focus:ring-green-900 rounded border border-gray-600 focus:border-green-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out`}
+                className={`w-full ${emailExists ? 'bg-red-600 bg-opacity-20' : 'bg-gray-600 bg-opacity-20'} focus:bg-transparent focus:ring-2 focus:ring-green-900 rounded border ${emailExists ? 'border-red-500' : 'border-gray-600'} focus:border-green-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out`}
               />
+              {emailExists && (
+                <p className="text-red-400 text-xs mt-1">This email is already registered</p>
+              )}
             </div>
             <div className="relative mb-4">
               <label htmlFor="email" className="leading-7 text-sm text-gray-400">
